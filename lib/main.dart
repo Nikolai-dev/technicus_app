@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.brown[600],
       ),
       body: Center(
-        child: Text("Fuck off!"),
+        child: Text("Fuck them all!"),
       )
 
     );
