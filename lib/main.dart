@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       appBar: AppBar(
         title: Icon(Icons.ac_unit,
             color: Colors.white70,
-            size: 100,
+            size: 500,
         ),
         backgroundColor: Colors.brown[600],
       ),
