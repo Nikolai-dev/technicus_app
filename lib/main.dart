@@ -41,16 +41,16 @@ class _FirstPageState extends State<FirstPage> {
         children: <Widget>[
           new Container(
             decoration: new BoxDecoration(
-              image: new DecorationImage(image: new AssetImage("assets/strand-2.jpg"), fit: BoxFit.cover,),
+              image: new DecorationImage(image: new AssetImage("assets/woods.jpg"), fit: BoxFit.cover,),
             ),
           ),
           new Center(
-            child: new Text("Natural disaster App",
+            child: new Text("What's up world?",
               style: TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w600,
+                fontSize: 49,
+                fontWeight: FontWeight.w900,
                 fontFamily: "Lato",
-                color: Colors.black54,
+                color: Colors.white,
               )
             )
           ),

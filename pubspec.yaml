@@ -52,6 +52,13 @@ flutter:
     - assets/weltkugel-3.jpg
     - assets/weltkugel-4.2.jpg
     - assets/strand-2.jpg
+    - assets/cliff.jpg
+    - assets/natural_beach.jpg
+    - assets/vulcano.jpg
+    - assets/woods.jpg
+    - assets/woods-2.jpg
+    - assets/woods_cliff.jpg
+    - assets/train.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
