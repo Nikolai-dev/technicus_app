@@ -22,7 +22,7 @@ class Menu extends StatelessWidget {
                   child: Text(
                     "Hallo!",
                     style: TextStyle(
-                      fontSize: 50,
+                      fontSize: 71,
                       fontWeight: FontWeight.w600,
                       fontFamily: "Lato",
 
