@@ -1,12 +1,15 @@
 
-
+import 'mikeyuebung.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_technicus/secondPage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
-void main() => runApp(App());
+void main() {
+  runApp(App());
+}
+
 
 class App extends StatelessWidget {
   @override
@@ -44,7 +47,13 @@ class MyApp extends StatelessWidget {
 
         ),
       ),
-      onTap: () async{
+      onTap:
+        (){
+        Navigator.push(context, MaterialPageRoute(builder:
+            (context) => ThirdPage())
+        );
+    }
+      /*() async{
 
         String loginURL = 'http://192.168.1.121:69/api/login';
         var response = await http.get(
@@ -65,7 +74,7 @@ class MyApp extends StatelessWidget {
           print('scheisse');
 
         }
-      }
+      }*/
     );
   }
 }
