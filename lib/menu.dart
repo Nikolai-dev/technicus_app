@@ -7,8 +7,13 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text('Menu'),
+        backgroundColor: Color.fromRGBO(0, 0, 0, 1),
+        title: Text('Menü',
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: 25,
+          color: Colors.white
+        )),
       ),
       
       body: Container(
@@ -18,7 +23,7 @@ class Menu extends StatelessWidget {
 
         //background picture
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage("assets/vulcano.jpg"), fit: BoxFit.cover)
+          image: DecorationImage(image: AssetImage("assets/Menu_V2.png"), fit: BoxFit.cover)
         ),
 
 
@@ -28,17 +33,22 @@ class Menu extends StatelessWidget {
           padding: const EdgeInsets.all(46),
 
           //number of containers
-          itemCount: 42,
+          itemCount: 5,
 
           //is building 42 containers
           itemBuilder: (BuildContext context, int index) {
             return Container(
               height: 50,
               //color + transparency
-              color: Colors.deepPurple.withOpacity(0.7),
+              color: Color.fromRGBO(100, 149, 237, 0.5).withOpacity(0.4),
               child: GestureDetector(
                 child: Center(
-                  child: Text('Go to Map'),
+                  child: Text('Go to Map',
+                  style:TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                    color: Colors.white,
+                  ) ),
                 ),
                 onTap: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Map()));

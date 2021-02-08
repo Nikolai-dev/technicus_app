@@ -28,19 +28,8 @@ class MyApp extends StatelessWidget {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/woods.jpg"), fit: BoxFit.cover,),
+                image: DecorationImage(image: AssetImage("assets/SplashScreen_V1.png"), fit: BoxFit.cover,),
               ),
-            ),
-
-            Center(
-                child: Text("What's up world?",
-                    style: TextStyle(
-                      fontSize: 49,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: "Lato",
-                      color: Colors.white,
-                    )
-                )
             ),
           ],
         ),

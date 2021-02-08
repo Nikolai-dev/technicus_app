@@ -29,6 +29,18 @@ class _MapState extends State<Map> {
       infoWindow: InfoWindow(
         title: "Sphinx"
       ),
+    ),
+    Marker(
+      markerId:MarkerId(
+        "marker2"
+      ),
+      position: LatLng(47.08198024318087, 14.42561847530015),
+      infoWindow: InfoWindow(
+        title: "Nik's Home",
+        onTap: () {
+          print("Hallo");
+        },
+      ),
     )
 
   };
