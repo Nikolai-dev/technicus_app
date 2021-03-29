@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage("assets/SplashScreen_V1.png"), fit: BoxFit.cover,),
+                image: DecorationImage(image: AssetImage("assets/SplashScreen_V2.png"), fit: BoxFit.cover,),
               ),
             ),
           ],
