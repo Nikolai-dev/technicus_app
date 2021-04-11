@@ -1,49 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'menu.dart';
+import 'package:http/http.dart';
 
 class Map extends StatefulWidget {
+  Set<Polygon> polygonList;
+  Set<Circle> earthquakeslist;
+
+  var myMapType;
+  Map({this.myMapType, this.polygonList, this.earthquakeslist});
   @override
   _MapState createState() => _MapState();
 }
 
 class _MapState extends State<Map> {
+
   GoogleMapController mapController;
-
-  //starting position on map
-  final LatLng _center = const LatLng(29.97527, 31.13763);
-
-  //Set of marker, contains 1 marker currently
-  Set<Marker> _markers= {
-
-    Marker(
-      //id to identify a marker
-      markerId: MarkerId(
-        "marker1"
-      ),
-
-      //pos
-      position: LatLng(29.97527,31.13763),
-
-      //Text shown, when marker gets clicked
-      infoWindow: InfoWindow(
-        title: "Sphinx"
-      ),
-    ),
-    Marker(
-      markerId:MarkerId(
-        "marker2"
-      ),
-      position: LatLng(47.08198024318087, 14.42561847530015),
-      infoWindow: InfoWindow(
-        title: "Nik's Home",
-        onTap: () {
-          print("Hallo");
-        },
-      ),
-    )
-
-  };
+  LatLng startPos = LatLng(1, 1);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -51,53 +23,15 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 20.0,
-        ),
-        mapType: MapType.satellite,
-        markers: _markers,
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+          target: startPos,
+          zoom: 10
       ),
-
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.close, size: 40),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Menu()));
-                },
-
-              ),
-            label: 'back'
-             ),
-
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.close, size: 40),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Menu()));
-                },
-              ),
-                label: "back"
-
-            ),
-
-            BottomNavigationBarItem(
-              icon: IconButton(
-                icon: Icon(Icons.close, size: 40),
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Menu()));
-                },
-              ),
-              label: "back"
-            ),
-        ],
-      ),
-    );
-
+      mapType: widget.myMapType,
+      polygons: widget.polygonList,
+      circles: widget.earthquakeslist,
+     );
   }
 }
