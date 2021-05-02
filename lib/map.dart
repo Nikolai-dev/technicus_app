@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,12 +82,12 @@ class CustomListTile extends StatelessWidget {
                       child: Text(
                         text,
                         style: TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 19.0, fontWeight: FontWeight.bold
                         ),
                       )),
                 ],
               ),
-              Icon(Icons.arrow_drop_down_sharp),
+             // Icon(Icons.arrow_drop_down_sharp),
             ],
           ),
         ),
@@ -309,7 +311,7 @@ class _DrawerPetautschnigState extends State<DrawerPetautschnig> {
               child: Column(
                 children: <Widget>[
                   Material(
-                    //borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     elevation: 10,
                     child: Padding(
                       padding: EdgeInsets.all(8.0),
@@ -384,12 +386,18 @@ class ScaffoldN extends StatefulWidget {
 }
 
 class _ScaffoldNState extends State<ScaffoldN> {
+
+  final allChecked = CheckBoxModal(title: 'Alle auswählen');
+  final checkBoxLIst = [
+    CheckBoxModal(title: "Erdbeben"),
+    CheckBoxModal(title: "Waldfeuer"),
+  ];
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        //backgroundColor: Colors.gre,
-        title: Text("Menu"),
+        backgroundColor: Colors.blue[900],
+        title: Text("Menu",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
       ),
       body: Container(
           child: ListView(
@@ -406,11 +414,68 @@ class _ScaffoldNState extends State<ScaffoldN> {
               Material(
                 child: CustomListTile(Icons.settings, "Settings", () => {}),
               ),
-                 new Checkbox(value: false, onChanged: (onChanged){print("OK");}),
-                 new Icon(Icons.change_history),
+               //new Checkbox(value: false, onChanged: (onChanged){print("OK");}),
+               //  new Icon(Icons.change_history),
+              ListTile(
+                onTap: ()=> onAllClicked(allChecked),
+                leading: Checkbox(
+                  value: allChecked.value,
+                  onChanged: (value) => onAllClicked(allChecked),
+                ),
+                title: Text(allChecked.title, style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.bold,
+                )),
+              ),
+              Divider(),
+              ...checkBoxLIst.map((item) =>
+                  ListTile(
+                    onTap: ()=> onItemClicked(item),
+                    leading: Checkbox(
+                      value: item.value,
+                      onChanged: (value) => onItemClicked(item),
+                    ),
+                    title: Text(item.title, style: TextStyle(
+                      fontSize: 18,
+                    )),
+                  )
+              ).toList()
+
             ],
           )
       ),
     );
   }
+
+  onAllClicked(CheckBoxModal ckbItem) {
+    final newValue = !ckbItem.value;
+    setState(() {
+      ckbItem.value = newValue;
+      checkBoxLIst.forEach((element) {
+        element.value = newValue;
+      });
+
+    });
+  }
+
+  onItemClicked(CheckBoxModal ckbItem){
+    final newValue = !ckbItem.value;
+    setState(() {
+      ckbItem.value = newValue;
+
+      if(!newValue){
+        allChecked.value = false;
+      }
+      else{
+        final allListChecked = checkBoxLIst.every((element) => element.value);
+        allChecked.value = allListChecked;
+      }
+    });
+  }
+}
+
+class CheckBoxModal{
+  String title;
+  bool value;
+
+  CheckBoxModal({@required this.title, this.value = false});
 }
