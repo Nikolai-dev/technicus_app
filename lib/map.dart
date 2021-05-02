@@ -1,3 +1,5 @@
+import 'package:flutter/animation.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
@@ -7,15 +9,16 @@ class Map extends StatefulWidget {
   Set<Circle> earthquakeslist;
 
   var myMapType;
+
   Map({this.myMapType, this.polygonList, this.earthquakeslist});
+
   @override
   _MapState createState() => _MapState();
 }
 
 class _MapState extends State<Map> {
-
   GoogleMapController mapController;
-  LatLng startPos = LatLng(-3.4527, 145.7212);
+  LatLng startPos = LatLng(1, 1);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -24,79 +27,36 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-       // title: Text("Slidemenu"),
-        backgroundColor: Colors.transparent//Colors.grey[800], //Color.fromRGBO(240, 248, 255, 99)//Colors.transparent,//Color.fromRGBO(39, 64, 139, 100)
+      body: GoogleMap(
+        onMapCreated: _onMapCreated,
+        initialCameraPosition: CameraPosition(target: startPos, zoom: 10),
+        mapType: widget.myMapType,
+        polygons: widget.polygonList,
+        circles: widget.earthquakeslist,
       ),
-      drawer: new Drawer(
-        child: ListView(
-          children:<Widget>[
-            DrawerHeader(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: <Color>[
-                    Colors.black,
-                    Colors.grey[800]
-                  ])
-                ),
-              child: Container(
-                child: Column(
-                  children: <Widget>[
-                    Material(
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                      elevation:10,
-                      child: Padding(padding: EdgeInsets.all(8.0),
-                          child: Image.asset("assets/Flutter Logo.png", width: 80, height:80),),
-                    ),
-                    Padding(padding: EdgeInsets.all(8.0),child: Text("Earthtastic",style: TextStyle(color: Colors.white, fontSize: 21.0),),)
-                  ],
-                )
-              ),),
-            CustomListTile(Icons.settings, "Settings", ()=>{}),
-            CustomListTile(Icons.fireplace_outlined, "Waldbrände", ()=>{}),
-            CustomListTile(Icons.water_damage, "Tsunami",()=>{}),
-           CustomListTile(Icons.dangerous,"Erdbeben", ()=>{}),
-          ],
-        )
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          //Navigator.push(context, MaterialPageRoute(maintainState: true, builder: (context) => Test()));
+          Navigator.of(context).push(PageRouteBuilder(
+              opaque: false,
+              pageBuilder: (BuildContext context, _, __) {
+                return ScaffoldN();
+              }));
+        },
+        label: Text('Menu', style: TextStyle(fontSize: 20)),
+        icon: Icon(Icons.menu),
+        backgroundColor: Colors.transparent,
       ),
-      body:
-      GoogleMap(
-      onMapCreated: _onMapCreated,
-      initialCameraPosition: CameraPosition(
-          target: startPos,
-          zoom: 10
-      ),
-
-      mapType: widget.myMapType,
-      polygons: widget.polygonList,
-      circles: widget.earthquakeslist,
-      ),
-     // floatingActionButton: FloatingActionButton.extended(
-       // onPressed: _goToTheLake,
-       // label: Text('To the lake!'),
-        //icon: Icon(Icons.directions_boat),
-
-      //),
-
     );
-
-   // return GoogleMap(
-     // onMapCreated: _onMapCreated,
-     // initialCameraPosition: CameraPosition(
-      //    target: startPos,
-    //      zoom: 10
-     // ),
-     // mapType: widget.myMapType,
-     // polygons: widget.polygonList,
-    // circles: widget.earthquakeslist,
-     //);
   }
 }
 
-class CustomListTile extends StatelessWidget{
-
+class CustomListTile extends StatelessWidget {
   IconData icon;
   String text;
   Function onTap;
+
   CustomListTile(this.icon, this.text, this.onTap);
 
   @override
@@ -106,34 +66,350 @@ class CustomListTile extends StatelessWidget{
       padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
       child: Container(
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(
-            color: Colors.grey.shade400
-          ))
-        ),
-        child: InkWell(
-          splashColor: Colors.grey[800],
-        onTap: onTap,
+            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
         child: Container(
           height: 50,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-             Row(
-               children: <Widget>[
-              Icon(icon),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:  Text(text,style: TextStyle(
-                  fontSize: 16.0,
-              ),
-              )),
-              ],
+              Row(
+                children: <Widget>[
+                  Icon(icon),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      )),
+                ],
               ),
               Icon(Icons.arrow_drop_down_sharp),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class DrawerM2 extends StatefulWidget {
+  @override
+  _DrawerM2State createState() => _DrawerM2State();
+}
+
+class _DrawerM2State extends State<DrawerM2> {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+//color: Colors.transparent
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.black, Colors.grey[800]])
+              ),
+              child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        elevation: 10,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset("assets/Flutter Logo.png",
+                              width: 80, height: 80),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          "Earthtastic",
+                          style: TextStyle(color: Colors.white, fontSize: 21.0),
+                        ),
+                      )
+                    ],
+                  )),
+            ),
+            CustomListTile(Icons.settings, "Settings", () =>{}),
+            Checkbox(),
+            // Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid)));
+
+          ],
+        ));
+  }
+}
+
+class DrawerM extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+//color: Colors.transparent
+                  gradient: LinearGradient(
+                      colors: <Color>[Colors.black, Colors.grey[800]])
+              ),
+              child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      Material(
+                        borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                        elevation: 10,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Image.asset("assets/Flutter Logo.png",
+                              width: 80, height: 80),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: Text(
+                          "Earthtastic",
+                          style: TextStyle(color: Colors.white, fontSize: 21.0),
+                        ),
+                      )
+                    ],
+                  )),
+            ),
+            CustomListTile(Icons.settings, "Settings", () => {}),
+          ],
+        ));
+  }
+}
+
+/*return new Drawer(
+/*child: Theme(
+        data: Theme.of(context).copyWith(
+      // Set the transparency here
+      canvasColor: Colors.transparent, //or any other color you want. e.g Colors.blue.withOpacity(0.5)
+    ),*/
+child: ListView(
+children: <Widget>[
+DrawerHeader(
+decoration: BoxDecoration(
+//color: Colors.transparent
+gradient: LinearGradient(
+colors: <Color>[Colors.black, Colors.grey[800]])
+),
+child: Container(
+child: Column(
+children: <Widget>[
+Material(
+borderRadius: BorderRadius.all(Radius.circular(50.0)),
+elevation: 10,
+child: Padding(
+padding: EdgeInsets.all(8.0),
+child: Image.asset("assets/Flutter Logo.png",
+width: 80, height: 80),
+),
+),
+Padding(
+padding: EdgeInsets.all(5.0),
+child: Text(
+"Earthtastic",
+style: TextStyle(color: Colors.white, fontSize: 21.0),
+),
+)
+],
+)),
+),
+CustomListTile(Icons.settings, "Settings", () => {}),
+CustomListTile(Icons.fireplace_outlined, "Waldbrände", () => {}),
+CustomListTile(Icons.water_damage, "Tsunami", () => {}),
+CustomListTile(Icons.dangerous, "Erdbeben", () => {}),
+],
+));*/
+
+Widget _buildPopupDialog(BuildContext context) {
+  return new AlertDialog(
+    title: const Text('Popup example'),
+    content: new Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text("Hello"),
+      ],
+    ),
+    actions: <Widget>[
+      new FlatButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        textColor: Theme.of(context).primaryColor,
+        child: Text('Close'),
+      ),
+    ],
+  );
+}
+
+/*class Checkbox extends StatefulWidget {
+  //String text;
+  //Checkbox(this.text);
+
+  @override
+  _CheckboxState createState() => _CheckboxState();
+}*/
+/*class _CheckboxState extends State<Checkbox> {
+
+  //String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border(bottom: BorderSide(color: Colors.grey.shade400))),
+        child: Container(
+          height: 50,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  new CheckboxListTile(value: false, onChanged: (value) {
+
+                  },),
+                  /* Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      )),*/
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}*/
+
+
+class DrawerPetautschnig extends StatefulWidget {
+  @override
+  _DrawerPetautschnigState createState() => _DrawerPetautschnigState();
+}
+
+class _DrawerPetautschnigState extends State<DrawerPetautschnig> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+        children:<Widget>[
+          Container(
+              decoration: BoxDecoration(color: Colors.white),
+              child: Column(
+                children: <Widget>[
+                  Material(
+                    //borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    elevation: 10,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Image.asset("assets/Flutter Logo.png",
+                          width: 80, height: 80),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Earthtastic",
+                      style: TextStyle(color: Colors.black, fontSize: 21.0),
+                    ),
+                  ),
+                  Material(
+                    child: CustomListTile(Icons.settings, "Settings", () => {}),
+
+                  ),
+                  // Material(
+                  // child: Checkbox(),
+                  // )
+
+                ],
+
+              )),
+
+        ]
+    );
+  }
+}
+
+class DrawerP2 extends StatefulWidget {
+  @override
+  _DrawerP2State createState() => _DrawerP2State();
+}
+
+class _DrawerP2State extends State<DrawerP2> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView(
+        children: [
+          Material(
+           borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            elevation: 10,
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Image.asset("assets/Flutter Logo.png",
+                  width: 80, height: 80),
+            ),
+          ),
+         /* Padding(
+            padding: EdgeInsets.all(5.0),
+            child: Text(
+              "Earthtastic",
+              style: TextStyle(color: Colors.black, fontSize: 21.0),
+            ),
+          ),*/
+          Material(
+            child: CustomListTile(Icons.settings, "Settings", () => {}),
+
+          ),
+        ],
+      )
+    );
+  }
+}
+
+class ScaffoldN extends StatefulWidget {
+  @override
+  _ScaffoldNState createState() => _ScaffoldNState();
+}
+
+class _ScaffoldNState extends State<ScaffoldN> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: AppBar(
+        //backgroundColor: Colors.gre,
+        title: Text("Menu"),
+      ),
+      body: Container(
+          child: ListView(
+            children: [
+              Material(
+                //borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                elevation: 10,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Image.asset("assets/Flutter Logo.png",
+                      width: 80, height: 80),
+                ),
+              ),
+              Material(
+                child: CustomListTile(Icons.settings, "Settings", () => {}),
+              ),
+                 new Checkbox(value: false, onChanged: (onChanged){print("OK");}),
+                 new Icon(Icons.change_history),
+            ],
+          )
       ),
     );
   }
