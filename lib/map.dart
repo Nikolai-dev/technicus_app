@@ -15,7 +15,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
 
   GoogleMapController mapController;
-  LatLng startPos = LatLng(1, 1);
+  LatLng startPos = LatLng(-3.4527, 145.7212);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -70,12 +70,12 @@ class _MapState extends State<Map> {
       polygons: widget.polygonList,
       circles: widget.earthquakeslist,
       ),
-      floatingActionButton: FloatingActionButton.extended(
+     // floatingActionButton: FloatingActionButton.extended(
        // onPressed: _goToTheLake,
-        label: Text('To the lake!'),
-        icon: Icon(Icons.directions_boat),
+       // label: Text('To the lake!'),
+        //icon: Icon(Icons.directions_boat),
 
-      ),
+      //),
 
     );
 

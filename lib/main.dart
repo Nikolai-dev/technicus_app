@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             if(result.body == '{"status": "key accepted"}'){
               print('login done.');
 
-              Future<http.Response> res = request({"Earthquakes": "1"});
+              Future<http.Response> res = request({"Earthquakes": "0"});
               res.then((resF){
                 print(resF.body);
 
@@ -53,14 +53,32 @@ class MyApp extends StatelessWidget {
 
                 var myData = jsonDecode(resF.body);
 
-                print(myData.length);
-                print(myData[17][6]);
+               // Set<Circle> earthquakelist;
 
+                //earthquakelist.add
+
+                //print(myData.length);
+                //print(myData[17][6]);
+
+                Set<Circle> earthquakes = {};
+                print(myData.length);
                 for(int i = 0; i < myData.length; i++){
-                  print(myData[i][5]);
+
+                  earthquakes.add(
+                    Circle(
+                     circleId: CircleId(i.toString()),
+                      radius: myData[i][3]*10000,
+                      center: LatLng(myData[i][1],myData[i][0]),
+                      fillColor: Colors.brown.withOpacity(0.35),
+                      strokeWidth: 1
+                        ,visible: true
+                    ));
+
+                  print(i);
                 }
 
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid,earthquakeslist: earthquakes,)));
+
               });
             }
           });
