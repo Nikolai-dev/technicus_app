@@ -34,6 +34,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   adobe_xd: ^1.0.0+1
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -68,6 +69,7 @@ flutter:
     - assets/Menu_V2.png
     - assets/SplashScreen_V2.png
     - assets/Flutter Logo.png
+    - assets/SplashScreen_V2.1.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

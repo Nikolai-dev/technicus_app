@@ -391,6 +391,7 @@ class _ScaffoldNState extends State<ScaffoldN> {
   final checkBoxLIst = [
     CheckBoxModal(title: "Erdbeben"),
     CheckBoxModal(title: "Waldfeuer"),
+    CheckBoxModal(title: "Tsunami"),
   ];
   @override
   Widget build(BuildContext context) {
@@ -438,8 +439,7 @@ class _ScaffoldNState extends State<ScaffoldN> {
                       fontSize: 18,
                     )),
                   )
-              ).toList()
-
+              ).toList(),
             ],
           )
       ),
