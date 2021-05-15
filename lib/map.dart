@@ -440,8 +440,11 @@ class _ScaffoldNState extends State<ScaffoldN> {
                     )),
                   )
               ).toList(),
+              /*Material(
+                child: CustomListTile(Icons.settings, "Settings", () => {}),  //PLatz zum Hinzufügen von weiteren Buttons
+              )*/
             ],
-          )
+          ),
       ),
     );
   }
