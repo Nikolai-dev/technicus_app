@@ -67,7 +67,7 @@ class _SplashscreenState extends State<Splashscreen> {
             res.then((resF){
               print(resF.body);
 
-              var myData = jsonDecode("[[-117.6965, 35.8656667, 0.55, 15.5, false], [-97.73245239, 36.71025467, 2.18, 2.138, false]]");
+              var myData = jsonDecode(resF.body);
 
 
               Set<Circle> earthquakes = {};
@@ -77,11 +77,11 @@ class _SplashscreenState extends State<Splashscreen> {
                 earthquakes.add(
                     Circle(
                         circleId: CircleId(i.toString()),
-                        radius: myData[i][3]*10000,
+                        radius: myData[i][3]*300000,
                         center: LatLng(myData[i][1],myData[i][0]),
                         fillColor: Colors.red.withOpacity(0.35),
-                        strokeWidth: 1
-                        ,visible: true
+                        strokeWidth: 1,
+                        visible: true
                     ));
 
                 print(i);
