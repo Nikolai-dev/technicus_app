@@ -41,7 +41,7 @@ class _SplashscreenState extends State<Splashscreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.end,   //Ausrichtung am unteren Ende des Bildschirms
               children: [
-                Text("ZUM STARTEN TIPPEN...", style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
+                Text("TAP TO START...", style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
                 SizedBox(height: 10,),
                 /*SpinKitWave(
                   size: 20,

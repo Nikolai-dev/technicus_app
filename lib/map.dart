@@ -128,11 +128,11 @@ class ScaffoldN extends StatefulWidget {
 
 class _ScaffoldNState extends State<ScaffoldN> {
 
-  final allChecked = CheckBoxModal(title: 'Alle auswählen', value: true);
+  final allChecked = CheckBoxModal(title: 'Select all', value: true);
   final checkBoxLIst = [
-    CheckBoxModal(title: "Erdbeben", value: true),
-    CheckBoxModal(title: "Waldfeuer", value: true),
-    CheckBoxModal(title: "Tsunami", value: true),
+    CheckBoxModal(title: "Earthquakes", value: true),
+    CheckBoxModal(title: "Forest fires", value: true),
+    CheckBoxModal(title: "Tsunamis", value: true),
   ];
   @override
   Widget build(BuildContext context) {
