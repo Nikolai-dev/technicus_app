@@ -60,34 +60,42 @@ class _SplashscreenState extends State<Splashscreen> {
       onTap: (){
         Future<http.Response> rsp= login();
         rsp.then((result){
-          if(result.body == '{"status": "key accepted"}'){
-            print('login done.');
+          if(result.body == '{"status": "key accepted"}'){              
+            Set<Circle> earthquakes_wildfires = {};
 
-            Future<http.Response> res = request({"Earthquakes": "0"});
-            res.then((resF){
-              print(resF.body);
-
-              var myData = jsonDecode(resF.body);
-
-
-              Set<Circle> earthquakes = {};
-              print(myData.length);
-              for(int i = 0; i < myData.length; i++){
-
-                earthquakes.add(
+            Future<http.Response> resEQ = request({"Earthquakes": "0"});
+            resEQ.then((resF){
+              var EQdata = jsonDecode(resF.body);
+              for(int i = 0; i < EQdata.length; i++){
+                earthquakes_wildfires.add(
                     Circle(
-                        circleId: CircleId(i.toString()),
-                        radius: myData[i][3]*300000,
-                        center: LatLng(myData[i][1],myData[i][0]),
+                        circleId: CircleId("eq"+i.toString()),
+                        radius: EQdata[i][3]*300000,
+                        center: LatLng(EQdata[i][1],EQdata[i][0]),
                         fillColor: Colors.red.withOpacity(0.35),
                         strokeWidth: 1,
                         visible: true
                     ));
-
-                print(i);
               }
+              Future<http.Response> resWF= request({"Wildfires": ""});
+              resWF.then((resFWF) {
+                print(resFWF.body);
+                var WFdata= jsonDecode(resFWF.body);
+                for(int i = 0; i < WFdata.length; i++){
+                  earthquakes_wildfires.add(
+                    Circle(
+                      circleId: CircleId("wf"+i.toString()),
+                      radius: 35000,
+                      center: LatLng(WFdata[i][0], WFdata[i][1]),
+                      fillColor: Colors.orange.withOpacity(0.5),
+                      strokeWidth: 1,
+                      visible: true,
+                    )
+                  );
+                }
 
-              Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid,earthquakeslist: earthquakes,)));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid,earthquakes_wildfires: earthquakes_wildfires)));
+              });
 
             });
           }

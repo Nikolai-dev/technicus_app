@@ -7,12 +7,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 
 class Map extends StatefulWidget {
-  Set<Polygon> polygonList;
-  Set<Circle> earthquakeslist;
+  Set<Circle> earthquakes_wildfires;
 
   var myMapType;
 
-  Map({this.myMapType, this.polygonList, this.earthquakeslist});
+  Map({this.myMapType, this.earthquakes_wildfires});
 
   @override
   _MapState createState() => _MapState();
@@ -33,8 +32,7 @@ class _MapState extends State<Map> {
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(target: startPos, zoom: 10),
         mapType: widget.myMapType,
-        polygons: widget.polygonList,
-        circles: widget.earthquakeslist,
+        circles: widget.earthquakes_wildfires,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
       floatingActionButton: FloatingActionButton.extended(
@@ -55,7 +53,7 @@ class _MapState extends State<Map> {
     );
     bool visibilityEQ= result[0];
 
-    if(widget.earthquakeslist.first.visible != visibilityEQ){
+    /*if(widget.earthquakeslist.first.visible != visibilityEQ){
       setState(() {
         Set<Circle> new_earthquakelist= {};
         for(var element in widget.earthquakeslist){
@@ -73,11 +71,10 @@ class _MapState extends State<Map> {
         print(result);
         widget.earthquakeslist= new_earthquakelist;
       });
-    }
+    }*/
 
 
   }
-
 }
 
 class CustomListTile extends StatelessWidget {
