@@ -54,33 +54,30 @@ class _MapState extends State<Map> {
     bool visibilityEQ= result[0];
     bool visibilityWF= result[1];
 
-    if(widget.earthquakes_wildfires.first.visible != visibilityEQ || widget.earthquakes_wildfires.last.visible != visibilityWF){
-      print('there is change');
-      print(widget.earthquakes_wildfires.length);
-      setState(() {
-        Set<Circle> new_eq_wf= {};
-        for(var element in widget.earthquakes_wildfires){
-          bool visible;
-          if(element.circleId.value[0] == 'e'){
-            visible= visibilityEQ;
-          }else if(element.circleId.value[0] == 'w'){
-            visible= visibilityWF;
-          }
-          new_eq_wf.add(
-            new Circle(
-              circleId: element.circleId,
-              center: element.center,
-              fillColor: element.fillColor,
-              strokeWidth: element.strokeWidth,
-              visible: visible,
-            )
-          );
-          print(visible);
+    setState(() {
+      Set<Circle> new_eq_wf= {};
+      for(var element in widget.earthquakes_wildfires){
+        bool visible;
+        if(element.circleId.value[0] == 'e'){
+          visible= visibilityEQ;
+        }else if(element.circleId.value[0] == 'w'){
+          visible= visibilityWF;
+        }
+        new_eq_wf.add(
+          new Circle(
+            circleId: element.circleId,
+            center: element.center,
+            fillColor: element.fillColor,
+            strokeWidth: element.strokeWidth,
+            visible: visible,
+          )
+        );
+        print(visible);
 
         }
         widget.earthquakes_wildfires= new_eq_wf;
-      });
-    }
+    });
+
   }
 }
 
