@@ -47,8 +47,8 @@ class _MapState extends State<Map> {
         circles: widget.earthquakes_wildfires,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FloatingActionButton.extended(
             onPressed: () {
@@ -58,6 +58,7 @@ class _MapState extends State<Map> {
             icon: Icon(Icons.menu),
             backgroundColor: Colors.transparent,
           ),
+          SizedBox(height: 10),
           FloatingActionButton.extended(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => News(data: widget.PUSHdata)));
@@ -291,8 +292,7 @@ class _NewsState extends State<News> {
                         blurRadius: 5,
                         offset: Offset(0, 0), // changes position of shadow
                 ),
-                ],
-                    ),
+                ],),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
