@@ -51,6 +51,7 @@ class _MapState extends State<Map> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           FloatingActionButton.extended(
+            heroTag: "menu",
             onPressed: () {
               _setVisibilityInMenu(context);
             },
@@ -60,6 +61,7 @@ class _MapState extends State<Map> {
           ),
           SizedBox(height: 10),
           FloatingActionButton.extended(
+            heroTag: "push",
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => News(data: widget.PUSHdata)));
             },
