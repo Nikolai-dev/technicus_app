@@ -79,7 +79,6 @@ class _SplashscreenState extends State<Splashscreen> {
               }
               Future<http.Response> resWF= request({"Wildfires": ""});
               resWF.then((resFWF) {
-                print(resFWF.body);
                 var WFdata= jsonDecode(resFWF.body);
                 for(int i = 0; i < WFdata.length; i++){
                   earthquakes_wildfires.add(
@@ -94,7 +93,12 @@ class _SplashscreenState extends State<Splashscreen> {
                   );
                 }
 
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid,earthquakes_wildfires: earthquakes_wildfires)));
+                Future<http.Response> resPush= request({"Push": ""});
+                resPush.then((resFPush){
+                  var PUSHdata= jsonDecode(resFPush.body);
+                  print(PUSHdata.runtimeType);
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Map(myMapType: MapType.hybrid,earthquakes_wildfires: earthquakes_wildfires, PUSHdata: PUSHdata,)));
+                });
               });
 
             });

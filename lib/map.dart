@@ -3,15 +3,17 @@ import 'dart:io';
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 
 class Map extends StatefulWidget {
   Set<Circle> earthquakes_wildfires;
+  var PUSHdata;
 
   var myMapType;
 
-  Map({this.myMapType, this.earthquakes_wildfires});
+  Map({this.myMapType, this.earthquakes_wildfires, this.PUSHdata});
 
   @override
   _MapState createState() => _MapState();
@@ -20,6 +22,16 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   GoogleMapController mapController;
   LatLng startPos = LatLng(1, 1);
+  var pushMarker= Marker(
+      markerId: MarkerId("push"),
+      draggable: false,
+      visible: false,
+      infoWindow: InfoWindow(
+        title: "ANTARCTICA",
+        snippet: "big iceberg splitted"
+      ),
+    position: LatLng(0,0),
+  );
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -35,14 +47,28 @@ class _MapState extends State<Map> {
         circles: widget.earthquakes_wildfires,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _setVisibilityInMenu(context);
-        },
-        label: Text('Menu', style: TextStyle(fontSize: 20)),
-        icon: Icon(Icons.menu),
-        backgroundColor: Colors.transparent,
-      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              _setVisibilityInMenu(context);
+            },
+            label: Text('Menu', style: TextStyle(fontSize: 20)),
+            icon: Icon(Icons.menu),
+            backgroundColor: Colors.transparent,
+          ),
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => News(data: widget.PUSHdata)));
+            },
+            label: Text('Push', style: TextStyle(fontSize: 20)),
+            icon: Icon(Icons.new_releases_outlined),
+            backgroundColor: Colors.transparent,
+          ),
+        ],
+      )
+
     );
   }
 
@@ -72,8 +98,6 @@ class _MapState extends State<Map> {
             visible: visible,
           )
         );
-        print(visible);
-
         }
         widget.earthquakes_wildfires= new_eq_wf;
     });
@@ -231,4 +255,58 @@ class CheckBoxModal{
   bool value;
 
   CheckBoxModal({@required this.title, this.value = false});
+}
+
+class News extends StatefulWidget{
+  var data;
+  News({this.data});
+  @override
+  _NewsState createState() => _NewsState();
+}
+
+class _NewsState extends State<News> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.blue[900],
+        title: Text("Push News",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
+        ),
+        body: Center(
+          child: ListView.separated(
+            padding: EdgeInsets.all(13),
+              itemCount: widget.data.length,
+              itemBuilder: (context, index) {
+                print(widget.data);
+                return Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 5),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 7,
+                        blurRadius: 5,
+                        offset: Offset(0, 0), // changes position of shadow
+                ),
+                ],
+                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(widget.data[index][0], style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(widget.data[index][1], style: TextStyle(fontWeight: FontWeight.normal))
+                    ],
+                  ),
+                  );
+              },
+            separatorBuilder: (BuildContext context, int index){
+              return SizedBox(height: 20);
+            },
+          )
+        )
+    );
+  }
 }
