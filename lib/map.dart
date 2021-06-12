@@ -22,16 +22,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
   GoogleMapController mapController;
   LatLng startPos = LatLng(1, 1);
-  var pushMarker= Marker(
-      markerId: MarkerId("push"),
-      draggable: false,
-      visible: false,
-      infoWindow: InfoWindow(
-        title: "ANTARCTICA",
-        snippet: "big iceberg splitted"
-      ),
-    position: LatLng(0,0),
-  );
+
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -42,7 +33,7 @@ class _MapState extends State<Map> {
     return new Scaffold(
       body: GoogleMap(
         onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(target: startPos, zoom: 10),
+        initialCameraPosition: CameraPosition(target: startPos, zoom: 3),
         mapType: widget.myMapType,
         circles: widget.earthquakes_wildfires,
       ),
@@ -71,40 +62,17 @@ class _MapState extends State<Map> {
           ),
         ],
       )
-
     );
   }
 
   void _setVisibilityInMenu(BuildContext context) async {
-    var result= await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ScaffoldN()),
-    );
-    bool visibilityEQ= result[0];
-    bool visibilityWF= result[1];
-
-    setState(() {
-      Set<Circle> new_eq_wf= {};
-      for(var element in widget.earthquakes_wildfires){
-        bool visible;
-        if(element.circleId.value[0] == 'e'){
-          visible= visibilityEQ;
-        }else if(element.circleId.value[0] == 'w'){
-          visible= visibilityWF;
-        }
-        new_eq_wf.add(
-          new Circle(
-            circleId: element.circleId,
-            center: element.center,
-            fillColor: element.fillColor,
-            strokeWidth: element.strokeWidth,
-            visible: visible,
-          )
-        );
-        }
-        widget.earthquakes_wildfires= new_eq_wf;
-    });
-
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context)=>
+            ScaffoldN(
+              mapType: widget.myMapType,
+              mapData: widget.earthquakes_wildfires,
+              pushData: widget.PUSHdata,
+            )));
   }
 }
 
@@ -150,33 +118,67 @@ class CustomListTile extends StatelessWidget {
 }
 
 class ScaffoldN extends StatefulWidget {
+  var mapData;
+  var mapType;
+  var pushData;
+
+  ScaffoldN({this.mapData, this.mapType, this.pushData});
+
   @override
   _ScaffoldNState createState() => _ScaffoldNState();
 }
 
 class _ScaffoldNState extends State<ScaffoldN> {
-
-  final allChecked = CheckBoxModal(title: 'Select all', value: true);
-  final checkBoxLIst = [
+  var allChecked = CheckBoxModal(title: 'Select all', value: true);
+  var checkBoxLIst = [
     CheckBoxModal(title: "Earthquakes", value: true),
     CheckBoxModal(title: "Forest fires", value: true),
     CheckBoxModal(title: "Tsunamis", value: true),
   ];
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
         title: Text("Menu",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22)),
-        leading: GestureDetector(
+        /*leading: GestureDetector(
           onTap: (){
-            Navigator.pop(context, [this.checkBoxLIst[0].value, this.checkBoxLIst[1].value, this.checkBoxLIst[2].value]);
+            Set<Circle> new_eq_wf= {};
+            bool visibilityEQ= checkBoxLIst[0].value;
+            bool visibilityWF= checkBoxLIst[1].value;
+
+            for(var element in widget.mapData){
+              bool visible;
+              if(element.circleId.value[0] == 'e'){
+                visible= visibilityEQ;
+              }else if(element.circleId.value[0] == 'w'){
+                visible= visibilityWF;
+              }
+              new_eq_wf.add(
+                  new Circle(
+                    circleId: element.circleId,
+                    center: element.center,
+                    fillColor: element.fillColor,
+                    strokeWidth: element.strokeWidth,
+                    visible: visible,
+                  )
+              );
+            }
+            Navigator.push(context, MaterialPageRoute(
+                builder: (context) =>
+                   Map(
+                      myMapType: widget.mapType,
+                      earthquakes_wildfires: new_eq_wf,
+                      PUSHdata: widget.pushData
+                  )
+                ));
           },
           child: Icon(
             Icons.arrow_back,
           ),
-        ),
-        automaticallyImplyLeading: false,
+        ),*/
+        automaticallyImplyLeading: true,
       ),
       body: Container(
           child: ListView(
@@ -217,9 +219,49 @@ class _ScaffoldNState extends State<ScaffoldN> {
                     )),
                   )
               ).toList(),
-              /*Material(
-                child: CustomListTile(Icons.settings, "Settings", () => {}),  //PLatz zum Hinzufügen von weiteren Buttons
-              )*/
+              Material(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                  child: Container(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Icon(Icons.info_outline_rounded),
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  "More info",
+                                  style: TextStyle(
+                                      fontSize: 19.0, fontWeight: FontWeight.bold
+                                  ),
+                                )),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.arrow_forward),
+                          onPressed: (){
+                            showAboutDialog(
+                                context: context,
+                                applicationIcon: FlutterLogo(),
+                                applicationName: "Earthtastic",
+                                applicationLegalese: "Created for the Technicus Award 2021",
+                                children: <Widget>[
+                                  Text("Developed by Johannes Petautschnig, Nikolai Mühlbacher and Michael Roscher")
+                                ]
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              //Material(
+              //  child: CustomListTile(Icons.settings, "Settings", () => {}),  //Platz zum Hinzufügen neuer Sachen!
+              //)
             ],
           ),
       ),
@@ -268,7 +310,6 @@ class News extends StatefulWidget{
 }
 
 class _NewsState extends State<News> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
